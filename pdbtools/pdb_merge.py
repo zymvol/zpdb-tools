@@ -84,7 +84,6 @@ def run(flist):
     for fhandle in flist:
         for line in fhandle:
             yield line
-        fhandle.close()
 
 
 concatenate_files = run
@@ -96,6 +95,9 @@ def main():
 
     # Do the job
     new_pdb = run(pdbfh)
+
+    for fh in pdbfh:
+        fh.close()
 
     try:
         _buffer = []
