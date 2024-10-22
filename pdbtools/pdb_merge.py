@@ -96,9 +96,6 @@ def main():
     # Do the job
     new_pdb = run(pdbfh)
 
-    for fh in pdbfh:
-        fh.close()
-
     try:
         _buffer = []
         _buffer_size = 5000  # write N lines at a time
@@ -115,6 +112,9 @@ def main():
         # for example to use 'head' or 'tail' without
         # the error message showing up
         pass
+
+    for fh in pdbfh:
+        fh.close()
 
     sys.exit(0)
 
