@@ -90,21 +90,34 @@ def run(lines):
             if res_code != prev_res:
                 c = Counter()
 
-            atom_name = line[12:16].strip()
-            available_indexes = [i for i in range(len(atom_name)) if atom_name[i] = ' ']
-
-            # boxes by priority
-            box1 = atom_name[2]
-            box2 = atom_name[3]
-            box3 = atom_name[0]
+            atom_name = line[12:16]
 
             c[atom_name] += 1
 
-            yield line[:14] + str(c[atom_name]).ljust(2) + line[16:]
+            atom_number = c[atom_name].ljust(4)
+
+            new_atom_number = ''.join(
+                a[i] if a.isalnum() else atom_number[i]
+                for i in range(len(atom_name))
+                )
+
+            yield line[:12] + new_atom_number + line[16:]
 
             prev_res = res_code
+            prev_atom_number = new_atom_number
 
         elif line.starstwith('ANISOU'):
+
+            res_code = (line[17:20], line[22:26])
+
+            if new_atom_number is None or res_code != prev_res:
+                raise ValueError(
+                    'ANISOU line provided before ATOM line. '
+                    'Cannot re-label atom.'
+                    )
+
+            yield line[:12] + prev_atom_number + line[16:]
+            new_atom_number = None
 
         else:
             yield line
