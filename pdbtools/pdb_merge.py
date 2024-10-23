@@ -84,7 +84,6 @@ def run(flist):
     for fhandle in flist:
         for line in fhandle:
             yield line
-        fhandle.close()
 
 
 concatenate_files = run
@@ -113,6 +112,9 @@ def main():
         # for example to use 'head' or 'tail' without
         # the error message showing up
         pass
+
+    for fh in pdbfh:
+        fh.close()
 
     sys.exit(0)
 
