@@ -23,39 +23,19 @@ import os
 import sys
 import unittest
 
-from config import data_dir
-from utils import OutputCapture
+from . import TestPDBTools, data_dir
 
 
-class TestTool(unittest.TestCase):
+class TestTool(TestPDBTools):
     """
     Generic class for testing tools.
     """
 
-    def setUp(self):
-        # Dynamically import the module
-        name = 'pdbtools.pdb_tocif'
-        self.module = __import__(name, fromlist=[''])
-
-    def exec_module(self):
-        """
-        Execs module.
-        """
-
-        with OutputCapture() as output:
-            try:
-                self.module.main()
-            except SystemExit as e:
-                self.retcode = e.code
-
-        self.stdout = output.stdout
-        self.stderr = output.stderr
-
-        return
+    name = 'zpdbtools.pdb_tocif'
 
     def test_single_model_run_iterable(self):
         """$ pdb_tocif.run(iterable)"""
-        from pdbtools import pdb_tocif
+        from zpdbtools import pdb_tocif
 
         fpath = os.path.join(data_dir, 'dummy.pdb')
         with open(fpath, 'r') as fin:
@@ -76,7 +56,7 @@ class TestTool(unittest.TestCase):
 
     def test_single_model_run_iterable_with_name(self):
         """$ pdb_tocif.run(iterable)"""
-        from pdbtools import pdb_tocif
+        from zpdbtools import pdb_tocif
 
         fpath = os.path.join(data_dir, 'dummy.pdb')
         with open(fpath, 'r') as fin:
@@ -97,7 +77,7 @@ class TestTool(unittest.TestCase):
 
     def test_single_model_run_fhandler(self):
         """$ pdb_tocif.run(fhandler)"""
-        from pdbtools import pdb_tocif
+        from zpdbtools import pdb_tocif
 
         fpath = os.path.join(data_dir, 'dummy.pdb')
         with open(fpath, 'r') as fin:
@@ -116,7 +96,7 @@ class TestTool(unittest.TestCase):
 
     def test_single_model_run_fhandler_name(self):
         """$ pdb_tocif.run(fhandler)"""
-        from pdbtools import pdb_tocif
+        from zpdbtools import pdb_tocif
 
         fpath = os.path.join(data_dir, 'dummy.pdb')
         with open(fpath, 'r') as fin:
@@ -227,12 +207,3 @@ class TestTool(unittest.TestCase):
         self.assertEqual(len(self.stdout), 0)
         self.assertEqual(self.stderr[0][:36],
                          "ERROR!! Script takes 1 argument, not")
-
-
-if __name__ == '__main__':
-    from config import test_dir
-
-    mpath = os.path.abspath(os.path.join(test_dir, '..'))
-    sys.path.insert(0, mpath)  # so we load dev files before  any installation
-
-    unittest.main()

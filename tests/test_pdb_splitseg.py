@@ -25,19 +25,17 @@ import sys
 import tempfile
 import unittest
 
-from config import data_dir
-from utils import OutputCapture
+from . import TestPDBTools, data_dir
 
 
-class TestTool(unittest.TestCase):
+class TestTool(TestPDBTools):
     """
     Generic class for testing tools.
     """
 
+    name = 'zpdbtools.pdb_splitseg'
+
     def setUp(self):
-        # Dynamically import the module
-        name = 'pdbtools.pdb_splitseg'
-        self.module = __import__(name, fromlist=[''])
         self.tempdir = tempfile.mkdtemp()  # set temp dir
         os.chdir(self.tempdir)
 
@@ -45,25 +43,9 @@ class TestTool(unittest.TestCase):
         os.chdir(os.path.dirname(os.path.abspath('.')))  # cd ../
         shutil.rmtree(self.tempdir)
 
-    def exec_module(self):
-        """
-        Execs module.
-        """
-
-        with OutputCapture() as output:
-            try:
-                self.module.main()
-            except SystemExit as e:
-                self.retcode = e.code
-
-        self.stdout = output.stdout
-        self.stderr = output.stderr
-
-        return
-
     def test_run_fhandler(self):
         """pdb_splitseg.run(iterable)"""
-        from pdbtools import pdb_splitseg
+        from zpdbtools import pdb_splitseg
 
         # Copy input file to tempdir
 
@@ -94,7 +76,7 @@ class TestTool(unittest.TestCase):
 
     def test_run_iterable_with_name(self):
         """pdb_splitseg.run(iterable, outname='newname')"""
-        from pdbtools import pdb_splitseg
+        from zpdbtools import pdb_splitseg
 
         # Copy input file to tempdir
 
@@ -124,7 +106,7 @@ class TestTool(unittest.TestCase):
 
     def test_run_iterable(self):
         """pdb_splitseg.run(fhandler)"""
-        from pdbtools import pdb_splitseg
+        from zpdbtools import pdb_splitseg
 
         # Copy input file to tempdir
 
@@ -240,12 +222,3 @@ class TestTool(unittest.TestCase):
         self.assertEqual(len(self.stdout), 0)
         self.assertEqual(self.stderr[0][:22],
                          "ERROR!! Script takes 1")  # proper error message
-
-
-if __name__ == '__main__':
-    from config import test_dir
-
-    mpath = os.path.abspath(os.path.join(test_dir, '..'))
-    sys.path.insert(0, mpath)  # so we load dev files before  any installation
-
-    unittest.main()
