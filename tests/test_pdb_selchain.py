@@ -23,35 +23,15 @@ import os
 import sys
 import unittest
 
-from config import data_dir
-from utils import OutputCapture
+from . import TestPDBTools, data_dir
 
 
-class TestTool(unittest.TestCase):
+class TestTool(TestPDBTools):
     """
     Generic class for testing tools.
     """
 
-    def setUp(self):
-        # Dynamically import the module
-        name = 'pdbtools.pdb_selchain'
-        self.module = __import__(name, fromlist=[''])
-
-    def exec_module(self):
-        """
-        Execs module.
-        """
-
-        with OutputCapture() as output:
-            try:
-                self.module.main()
-            except SystemExit as e:
-                self.retcode = e.code
-
-        self.stdout = output.stdout
-        self.stderr = output.stderr
-
-        return
+    name = 'zpdbtools.pdb_selchain'
 
     def test_one_option(self):
         """$ pdb_selchain -A data/dummy.pdb"""
@@ -77,7 +57,7 @@ class TestTool(unittest.TestCase):
 
         # Execute the script
         self.exec_module()
-        
+
         # Validate results
         self.assertEqual(self.retcode, 0)  # ensure the program exited OK.
         self.assertEqual(len(self.stdout), 76)  # selected c.A
@@ -112,7 +92,7 @@ class TestTool(unittest.TestCase):
         self.assertEqual(self.retcode, 0)  # ensure the program exited OK.
         self.assertEqual(len(self.stdout), 71)  # selected c.1
         self.assertEqual(len(self.stderr), 0)  # no errors
-    
+
     def test_multiple(self):
         """
         $ pdb_selchain -A,B data/dummy.pdb
@@ -199,12 +179,3 @@ class TestTool(unittest.TestCase):
         self.assertEqual(len(self.stdout), 0)
         self.assertEqual(self.stderr[0],
                          "ERROR! First argument is not an option: '20'")
-
-
-if __name__ == '__main__':
-    from config import test_dir
-
-    mpath = os.path.abspath(os.path.join(test_dir, '..'))
-    sys.path.insert(0, mpath)  # so we load dev files before  any installation
-
-    unittest.main()

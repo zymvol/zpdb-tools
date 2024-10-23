@@ -23,35 +23,15 @@ import os
 import sys
 import unittest
 
-from config import data_dir
-from utils import OutputCapture
+from . import TestPDBTools, data_dir
 
 
-class TestTool(unittest.TestCase):
+class TestTool(TestPDBTools):
     """
     Generic class for testing tools.
     """
 
-    def setUp(self):
-        # Dynamically import the module
-        name = 'pdbtools.pdb_chain'
-        self.module = __import__(name, fromlist=[''])
-
-    def exec_module(self):
-        """
-        Execs module.
-        """
-
-        with OutputCapture() as output:
-            try:
-                self.module.main()
-            except SystemExit as e:
-                self.retcode = e.code
-
-        self.stdout = output.stdout
-        self.stderr = output.stderr
-
-        return
+    name = 'zpdbtools.pdb_chain'
 
     def test_default(self):
         """$ pdb_chain data/dummy.pdb"""
@@ -149,12 +129,3 @@ class TestTool(unittest.TestCase):
         self.assertEqual(len(self.stdout), 0)
         self.assertEqual(self.stderr[0],
                          "ERROR! First argument is not an option: 'A'")
-
-
-if __name__ == '__main__':
-    from config import test_dir
-
-    mpath = os.path.abspath(os.path.join(test_dir, '..'))
-    sys.path.insert(0, mpath)  # so we load dev files before  any installation
-
-    unittest.main()

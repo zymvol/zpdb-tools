@@ -19,28 +19,20 @@
 Unit Tests for `pdb_tidy`.
 """
 
-try:
-    from StringIO import StringIO  # python 2.7
-except ImportError:
-    from io import StringIO  # python 3.x
-
 import os
 import sys
 import unittest
+from io import StringIO
 
-from config import data_dir
-from utils import OutputCapture
+from . import OutputCapture, TestPDBTools, data_dir
 
 
-class TestTool(unittest.TestCase):
+class TestTool(TestPDBTools):
     """
     Generic class for testing tools.
     """
 
-    def setUp(self):
-        # Dynamically import the module
-        name = 'pdbtools.pdb_tidy'
-        self.module = __import__(name, fromlist=[''])
+    name = 'zpdbtools.pdb_tidy'
 
     def exec_module(self, stdin=None):
         """
@@ -328,12 +320,3 @@ class TestTool(unittest.TestCase):
         self.assertEqual(len(self.stdout), 0)
         self.assertEqual(self.stderr[0][:36],
                          "ERROR! First argument is not a valid")
-
-
-if __name__ == '__main__':
-    from config import test_dir
-
-    mpath = os.path.abspath(os.path.join(test_dir, '..'))
-    sys.path.insert(0, mpath)  # so we load dev files before  any installation
-
-    unittest.main()

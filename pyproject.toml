@@ -1,0 +1,47 @@
+[project]
+name = "zpdb-tools"
+readme = "README.md"
+description='A swiss army knife for PDB files.'
+requires-python = ">=3.7"
+version = "2.5.1"
+dynamic = ["scripts"]
+keywords = [
+    "zymvol",
+    "bioinformatics",
+    "proteins",
+    "pdb",
+    "structural-biology",
+    ]
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Intended Audience :: Science/Research',
+    'Topic :: Scientific/Engineering',
+    'Topic :: Scientific/Engineering :: Chemistry',
+    'Topic :: Scientific/Engineering :: Bio-Informatics',
+    'License :: OSI Approved :: Apache Software License',
+    ]
+authors = [
+    {name = "João Rodrigues", email = "j.p.g.l.m.rodrigues@gmail.com" },
+    {name = "João M.C. Teixeira", email = "jteixeira@zymvol.com" },
+    ]
+
+[project.urls]
+Repository = "https://github.com/zymvol/zpdb-tools"
+Issues = "https://github.com/zymvol/zpdb-tools/issues"
+
+[build-system]
+requires = [
+    "setuptools >= 75",
+    ]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+zpdbtools = "pdbtools"
