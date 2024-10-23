@@ -32,6 +32,7 @@ data to another.
 import sys
 import os
 from collections import Counter
+from itertools import cycle
 
 
 __author__ = "Joao MC Teixeira"
@@ -94,10 +95,10 @@ def run(lines):
 
             c[atom_name] += 1
 
-            atom_number = c[atom_name].ljust(4)
+            atom_number = cycle(str(c[atom_name]).ljust(4))
 
             new_atom_number = ''.join(
-                a[i] if a.isalnum() else atom_number[i]
+                atom_name[i] if atom_name[i] != ' ' else next(atom_number)
                 for i in range(len(atom_name))
                 )
 
@@ -106,7 +107,7 @@ def run(lines):
             prev_res = res_code
             prev_atom_number = new_atom_number
 
-        elif line.starstwith('ANISOU'):
+        elif line.startswith('ANISOU'):
 
             res_code = (line[17:20], line[22:26])
 
