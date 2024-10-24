@@ -22,6 +22,7 @@ Unit Tests for `pdb_merge`.
 import os
 import sys
 import unittest
+from copy import copy
 
 from . import TestPDBTools, data_dir
 
@@ -47,6 +48,15 @@ class TestTool(TestPDBTools):
         self.assertEqual(self.retcode, 0)  # ensure the program exited OK.
         self.assertEqual(len(self.stdout), 408)  # no lines deleted
         self.assertEqual(len(self.stderr), 0)  # no errors
+
+    def test_default_with_lines(self):
+        """pdb_merge.run([pdb_lines])."""
+        with open(os.path.join(data_dir, 'dummy.pdb'), 'r') as fin:
+            lines1 = fin.readlines()
+
+        lines2 = copy(lines1)
+        result = list(self.module.run([lines1, lines2]))
+        self.assertEqual(len(result), 408)
 
     def test_file_not_found(self):
         """$ pdb_merge not_existing.pdb"""
