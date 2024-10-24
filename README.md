@@ -39,6 +39,25 @@ git pull
 pip install -U .
 ```
 
+## Notes to `zpdb-tools` developers
+
+* Write new tools following the structure of the existing tools.
+* Write tests following the test cases already present.
+* Run tests using `unittest` (example below).
+* It's imperative that all previous tests pass.
+* New test cases are welcomed.
+
+```
+python -m unittest
+
+# or, specificy a particular file
+python -m unittest tests/test_pdb_chain.py
+```
+
+`zpdb-tools` core maintainers will bump the version manually after
+merging the PR as automatic version bump is disabled in `zpdb-tools` by
+design.
+
 # pdb-tools
 
 [![PyPI version](https://badge.fury.io/py/pdb-tools.svg)](https://pypi.python.org/pypi/pdb-tools)
