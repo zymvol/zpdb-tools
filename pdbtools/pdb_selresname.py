@@ -133,11 +133,29 @@ def run(fhandle, resname_set):
         The PDB lines for the residues selected.
         Non-coord lines are yielded as well.
     """
+    atom_records = set()
     records = ('ATOM', 'HETATM', 'ANISOU', 'TER')
+
     for line in fhandle:
         if line.startswith(records):
+
             if line[17:20].strip() not in resname_set:
                 continue
+
+            else:
+                atom_number = line[6:11].strip()
+                atom_records.add(atom_number)
+
+        # CONECT lines are usualy at the end
+        elif line.startswith('CONECT'):
+
+            # [1:] to remove the 'CONECT' word
+            # some conect lines have more than one atom number
+            elements = line.strip().split()[1:]
+
+            if not all(element in atom_records for element in elements):
+                continue
+
         yield line
 
 
