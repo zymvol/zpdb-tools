@@ -86,7 +86,7 @@ def run(flist):
             yield line
         try:
             fhandle.close()
-        except ValueError:
+        except AttributeError:
             pass
 
 
