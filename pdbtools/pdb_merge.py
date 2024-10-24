@@ -84,7 +84,10 @@ def run(flist):
     for fhandle in flist:
         for line in fhandle:
             yield line
-        fhandle.close()
+        try:
+            fhandle.close()
+        except AttributeError:
+            pass
 
 
 concatenate_files = run
