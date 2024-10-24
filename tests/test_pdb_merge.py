@@ -58,6 +58,16 @@ class TestTool(TestPDBTools):
         result = list(self.module.run([lines1, lines2]))
         self.assertEqual(len(result), 408)
 
+    def test_default_with_fin_closed(self):
+        """pdb_merge.run([fin1, fin2])."""
+        with (
+                open(os.path.join(data_dir, 'dummy.pdb'), 'r') as fin1,
+                open(os.path.join(data_dir, 'dummy.pdb'), 'r') as fin2,
+                ):
+            result = list(self.module.run([fin1, fin2]))
+
+        self.assertEqual(len(result), 408)
+
     def test_file_not_found(self):
         """$ pdb_merge not_existing.pdb"""
 
