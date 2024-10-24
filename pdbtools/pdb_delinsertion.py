@@ -39,7 +39,7 @@ effort to maintain and compile. RIP.
 import sys
 import warnings
 
-from pdbtools import pdb_fixinsert
+from zpdbtools import pdb_fixinsert
 
 __author__ = "Joao Rodrigues"
 __email__ = "j.p.g.l.m.rodrigues@gmail.com"

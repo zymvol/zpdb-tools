@@ -1,3 +1,63 @@
+# zpdb-tools
+
+![zpdb-tools version](https://img.shields.io/badge/version-2.5.1-blue)
+
+Welcome to `zpdb-tools`. This repository and project is a fork of the original
+Python [`pdb-tools`](https://github.com/haddocking/pdb-tools).
+
+We created this fork to facilitate agile development of new features either by
+upgrading existing clients or creating new ones. And, hence, contribute with
+such new features back to the community.
+
+Differently from `pdb-tools`, `zpdb-tools` should be imported as:
+
+```python
+# import examples
+import zpdbtools
+from zpdbtools import pdb_chain
+```
+
+`zpdb-tools` can be used through command-lines equally to `pdb-tools`.
+
+## Install `zpdb-tools`
+
+To install `zpdb-tools`:
+
+```
+git clone git@github.com:zymvol/zpdb-tools.git
+cd zpdb-tools
+pip install .
+```
+
+## Update
+
+To update `zpdb-tools` to the latest version, navigate to the clone directory
+created during the installation step, and:
+
+```
+git pull
+pip install -U .
+```
+
+## Notes to `zpdb-tools` developers
+
+* Write new tools following the structure of the existing tools.
+* Write tests following the test cases already present.
+* Run tests using `unittest` (example below).
+* It's imperative that all previous tests pass.
+* New test cases are welcomed.
+
+```
+python -m unittest
+
+# or, specificy a particular file
+python -m unittest tests/test_pdb_chain.py
+```
+
+`zpdb-tools` core maintainers will bump the version manually after
+merging the PR as automatic version bump is disabled in `zpdb-tools` by
+design.
+
 # pdb-tools
 
 [![PyPI version](https://badge.fury.io/py/pdb-tools.svg)](https://pypi.python.org/pypi/pdb-tools)
@@ -6,7 +66,6 @@
 [![DOI](https://zenodo.org/badge/27217350.svg)](https://doi.org/10.12688/f1000research.17456.1)
 
 A swiss army knife for manipulating and editing PDB files.
-
 
 ## Looking for the _other_ pdb-tools?
 The Harms lab maintains a set of tools also called `pdbtools`, which perform a
